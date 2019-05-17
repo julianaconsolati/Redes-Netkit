@@ -1,0 +1,12 @@
+brctl addbr br0
+modprobe bonding
+echo balance-rr > /sys/class/net/bond0/bonding/mode
+echo +eth0 > /sys/class/net/bond0/bonding/slaves
+echo +eth1 > /sys/class/net/bond0/bonding/slaves
+brctl addif br0 eth2
+brctl addif br0 bond0
+ifconfig eth0 up
+ifconfig eth1 up
+ifconfig eth2 up
+ifconfig bond0 up
+ifconfig br0 up
