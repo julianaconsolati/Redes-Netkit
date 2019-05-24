@@ -1,0 +1,4 @@
+ifconfig eth0 up
+vconfig add eth0 200
+ifconfig eth0.200 200.168.0.1/24 up
+
