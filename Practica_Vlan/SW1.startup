@@ -8,3 +8,49 @@ ifconfig eth0 up
 ifconfig eth1 up
 ifconfig eth2 up
 ifconfig eth3 up
+
+//en /etc/network/interfaces
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet manual
+
+auto eth1
+iface eth1 inet manual
+
+auto eth2
+iface eth2 inet manual
+
+auto eth3
+iface eth3 inet manual
+
+auto eth0.100
+iface eth0.100 inet manual
+vlan-raw-device eth0
+
+auto eth1.100
+iface eth1.100 inet manual
+vlan-raw-device eth1
+
+auto eth2.200
+iface eth2.200 inet manual
+vlan-raw-device eth2
+
+auto eth3.200
+iface eth3.200 inet manual
+vlan-raw-device eth3
+
+auto br0
+iface br0 inet manual
+bridge_ports none
+
+auto br0.100
+iface br0.100 inet manual
+bridge_ports eth0.100 eth1.100
+vlan-raw-device br0
+
+auto br0.200
+iface br0.200 inet manual
+bridge_ports eth2.200 eth3.200
+vlan-raw-device br0
