@@ -8,7 +8,7 @@ ifconfig eth2 up
 ifconfig br0 up
 brctl stp br0 on
 
-// en etc/network/interface
+// en etc/network/interfaces
 auto lo
 iface lo inet loopback
 
