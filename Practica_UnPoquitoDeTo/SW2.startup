@@ -7,3 +7,45 @@ ifconfig eth1 up
 ifconfig eth2 up
 ifconfig br0 up
 brctl stp br0 on
+
+// en etc/network/interface
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet manual
+
+auto eth2
+iface eth2 inet manual
+
+auto eth0.200
+iface eth0.200 inet manual
+vlan-raw-device eth0
+
+auto eth0.300
+iface eth0.300 inet manual
+vlan-raw-device eth0
+
+auto eth2.100
+iface eth3.100 inet manual
+vlan-raw-device eth3
+
+auto br0
+iface br0 inet manual
+bridge_ports none
+
+auto br0.100
+iface br0.100 inet manual
+bridge_ports eth2.100
+vlan-raw-device br0
+
+auto br0.200
+iface br0.200 inet manual
+bridge_ports eth0.200 
+vlan-raw-device br0
+
+auto br0.300
+iface br0.300 inet manual
+bridge_ports eth0.300
+vlan-raw-device br0
+
