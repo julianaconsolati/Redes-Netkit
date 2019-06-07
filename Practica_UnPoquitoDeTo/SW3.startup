@@ -12,4 +12,19 @@ ifconfig bond0 up
 ifconfig br0 up
 brctl stp br0 on 
 
+// en etc/network/interfaces
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet manual
+
+auto eth0.100
+iface eth0.100 inet manual
+vlan-raw-device eth0
+
+auto br0.100
+iface br0.100 inet manual
+bridge_ports eth0.100 eth1.100
+vlan-raw-device br0
 
