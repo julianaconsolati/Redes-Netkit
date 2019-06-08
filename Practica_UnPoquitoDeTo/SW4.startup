@@ -1,71 +1,25 @@
 brctl addbr br0
 modprobe bonding
 echo balance-rr > /sys/class/net/bond0/bonding/mode
-echo +eth0 > /sys/class/net/bond0/bonding/slaves
+echo +eth2 > /sys/class/net/bond0/bonding/slaves
 echo +eth1 > /sys/class/net/bond0/bonding/slaves
-modprobe bonding
-echo +bond1 > /sys/class/net/bonding_masters
-echo balance-rr > /sys/class/net/bond1/bonding/mode
-echo +eth5 > /sys/class/net/bond1/bonding/slaves
-echo +eth6 > /sys/class/net/bond1/bonding/slaves
-brctl addif br0 eth2
+brctl addif br0 eth0
 brctl addif br0 bond0
-brctl addif br0 bond1
-brctl addif br0 eth3
-brctl addif br0 eth4
-
 ifconfig eth0 up
 ifconfig eth1 up
 ifconfig eth2 up
-ifconfig eth3 up
-ifconfig eth4 up
-ifconfig eth5 up
-ifconfig eth6 up
 ifconfig bond0 up
-ifconfig bond1 up
 ifconfig br0 up
-brctl stp br0 on
+brctl stp br0 on 
 
-// en /etc/network/interfaces
-auto lo
-iface lo inet loopback
 
-auto eth2
-iface eth2 inet manual
+brctl addbr br0.100
+vconfig add eth0 100
 
-auto eth3
-iface eth3 inet manual
+brctl addif br0.100 eth0.100
+brctl addif br0.100 eth1
+brctl addif br0.100 eth2
+ifconfig eth0.100 up
 
-auto eth4
-iface eth4 inet manual
-
-auto eth2.200
-iface eth2.200 inet manual
-vlan-raw-device eth2
-
-auto eth3.300
-iface eth3.300 inet manual
-vlan-raw-device eth3
-
-auto eth4.100
-iface eth4.100 inet manual
-vlan-raw-device eth4
-
-auto br0
-iface br0 inet manual
-bridge_ports none
-
-auto br0.100
-iface br0.100 inet manual
-bridge_ports eth4.100
-vlan-raw-device br0
-
-auto br0.200
-iface br0.200 inet manual
-bridge_ports eth2.200 
-vlan-raw-device br0
-
-auto br0.300
-iface br0.300 inet manual
-bridge_ports eth3.300
-vlan-raw-device br0
+ifconfig br0.100 up
+brctl stp br0.100 on
