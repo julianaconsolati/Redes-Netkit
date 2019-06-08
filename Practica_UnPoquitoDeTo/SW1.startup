@@ -12,22 +12,17 @@ ifconfig bond0 up
 ifconfig br0 up
 brctl stp br0 on
 
-//en /etc/network/interfaces
-auto lo
-iface lo inet loopback
 
-auto eth0
-iface eth0 inet manual
+brctl addbr br0.200
+vconfig add eth0 200
 
-auto eth0.200
-iface eth0.200 inet manual
-vlan-raw-device eth0
+brctl addif br0.200 eth0.200
+brctl addif br0.200 eth1
+brctl addif br0.200 eth2
 
-auto br0
-iface br0 inet manual
-bridge_ports none
+ifconfig eth0.200 up
+ifconfig eth1 up
+ifconfig eth2 up
 
-auto br0.200
-iface br0.200 inet manual
-bridge_ports eth2.200 eth3.200
-vlan-raw-device br0
+ifconfig br0.200 up
+brctl stp br0.200 on
