@@ -22,4 +22,4 @@ brctl addif br0.100 eth2
 ifconfig eth0.100 up
 
 ifconfig br0.100 up
-brctl stp br0.10 on
+brctl stp br0.100 on
