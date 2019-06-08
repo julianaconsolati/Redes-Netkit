@@ -1,56 +1,26 @@
-brctl addbr br0
-brctl addif br0 eth0
-brctl addif br0 eth1
-brctl addif br0 eth2
-brctl addif br0 eth3
-ifconfig br0 up
+brctl addbr br0.200
+brctl addbr br0.300
+
 ifconfig eth0 up
 ifconfig eth1 up
 ifconfig eth2 up
 ifconfig eth3 up
 
-//en /etc/network/interfaces
-auto lo
-iface lo inet loopback
+vconfig add eth0 200
+vconfig add eth1 300
+vconfig add eth2 200
+vconfig add eth3 300
 
-auto eth0
-iface eth0 inet manual
+brctl addif br0.200 eth0.200
+brctl addif br0.300 eth1.300
+brctl addif br0.200 eth2.200
+brctl addif br0.300 eth3.300
 
-auto eth1
-iface eth1 inet manual
+ifconfig eth0.200 up
+ifconfig eth1.300 up
+ifconfig eth2.200 up
+ifconfig eth3.300 up
 
-auto eth2
-iface eth2 inet manual
+ifconfig br0.200 up
+ifconfig br0.300 up
 
-auto eth3
-iface eth3 inet manual
-
-auto eth0.100
-iface eth0.100 inet manual
-vlan-raw-device eth0
-
-auto eth1.100
-iface eth1.100 inet manual
-vlan-raw-device eth1
-
-auto eth2.200
-iface eth2.200 inet manual
-vlan-raw-device eth2
-
-auto eth3.200
-iface eth3.200 inet manual
-vlan-raw-device eth3
-
-auto br0
-iface br0 inet manual
-bridge_ports none
-
-auto br0.100
-iface br0.100 inet manual
-bridge_ports eth0.100 eth1.100
-vlan-raw-device br0
-
-auto br0.200
-iface br0.200 inet manual
-bridge_ports eth2.200 eth3.200
-vlan-raw-device br0
