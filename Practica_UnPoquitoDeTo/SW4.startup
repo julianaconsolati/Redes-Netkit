@@ -1,25 +1,52 @@
 brctl addbr br0
 modprobe bonding
 echo balance-rr > /sys/class/net/bond0/bonding/mode
-echo +eth2 > /sys/class/net/bond0/bonding/slaves
+echo +eth0 > /sys/class/net/bond0/bonding/slaves
 echo +eth1 > /sys/class/net/bond0/bonding/slaves
-brctl addif br0 eth0
+modprobe bonding
+echo +bond1 > /sys/class/net/bonding_masters
+echo balance-rr > /sys/class/net/bond1/bonding/mode
+echo +eth5 > /sys/class/net/bond1/bonding/slaves
+echo +eth6 > /sys/class/net/bond1/bonding/slaves
+brctl addif br0 eth2
 brctl addif br0 bond0
+brctl addif br0 bond1
+brctl addif br0 eth3
+brctl addif br0 eth4
+
 ifconfig eth0 up
 ifconfig eth1 up
 ifconfig eth2 up
+ifconfig eth3 up
+ifconfig eth4 up
+ifconfig eth5 up
+ifconfig eth6 up
 ifconfig bond0 up
+ifconfig bond1 up
 ifconfig br0 up
-brctl stp br0 on 
+brctl stp br0 on
 
 
 brctl addbr br0.100
-vconfig add eth0 100
+brctl addbr br0.200
+brctl addbr br0.300
 
-brctl addif br0.100 eth0.100
-brctl addif br0.100 eth1
-brctl addif br0.100 eth2
-ifconfig eth0.100 up
+vconfig add eth2 200
+vconfig add eth3 300
+vocnfig add eth4 100
+
+brctl addif br0.300 eth3.300
+brctl addif br0.100 eth4.100
+brctl addif br0.200 eth2.200
+
+ifconfig eth2.200 up
+ifconfig eth3.300 up
+ifconfig eth4.100 up
 
 ifconfig br0.100 up
+ifconfig br0.200 up
+ifconfig br0.300 up
+
 brctl stp br0.100 on
+brctl stp br0.200 on
+brctl stp br0.300 on
