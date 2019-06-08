@@ -26,38 +26,32 @@ ifconfig br0 up
 brctl stp br0 on
 brctl setbridgeprio br0 1
 
-en /etc/network/interfaces
-auto lo
-iface lo inet loopback
 
-auto eth3
-iface eth3 inet manual
+brctl addbr br0.100
+brctl addbr br0.200
+brctl addbr br0.300
 
-auto eth4
-iface eth4 inet manual
+vconfig add eth3 200
+vconfig add eth3 300
+vconfig add eth4 100
 
-auto eth3.200
-iface eth3.200 inet manual
-vlan-raw-device eth3
+brctl addif br0.200 eth3.200
+brctl addif br0.300 eth3.300
+brctl addif br0.100 eth4.100
+brctl addif br0 eth2
+brctl addif br0 eth1
+brctl addif br0 eth0
+brctl addif br0 eth5
+brctl addif br0 eth6
 
-auto eth3.300
-iface eth3.300 inet manual
-vlan-raw-device eth3
+ifconfig eth2.200 up
+ifconfig eth3.300 up
+ifconfig eth4.100 up
 
-auto eth4.300
-iface eth4.300 inet manual
-vlan-raw-device eth4
+ifconfig br0.100 up
+ifconfig br0.200 up
+ifconfig br0.300 up
 
-auto br0
-iface br0 inet manual
-bridge_ports none
-
-auto br0.200
-iface br0.200 inet manual
-bridge_ports eth2.200 
-vlan-raw-device br0
-
-auto br0.300
-iface br0.300 inet manual
-bridge_ports eth3.300
-vlan-raw-device br0
+brctl stp br0.100 on
+brctl stp br0.200 on
+brctl stp br0.300 on
